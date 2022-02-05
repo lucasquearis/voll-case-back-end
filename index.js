@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const http = require('http').createServer(app);
 
-const PORT = 3001;
+app.use(cors());
 
 const io = require('socket.io')(http, {
   cors: {
@@ -12,26 +13,12 @@ const io = require('socket.io')(http, {
   },
 });
 
-let userList = [];
+require('./src/sockets')(io);
 
-io.on('connection', (socket) => {
-  io.emit('userList', userList);
+const { messages } = require('./src/controllers/messages');
 
-  socket.on('newUser', (name) => {
-    userList.push({ id: socket.id, name });
-    io.emit('userList', userList);
-    socket.broadcast.emit('messageNewUser', (`${name} acabou de se conectar! :)`));
-  });
+const PORT = 3001;
 
-  socket.on('disconnect', () => {
-    const newList = userList.filter(({ id }) => id === socket.id);
-    userList = newList;
-    io.emit('userList', userList);
-  });
-});
-
-app.get('/', (_req, res) => {
-  res.status(200).send('deu tudo certo');
-});
+app.get('/messages', messages);
 
 http.listen(PORT, () => global.console.log(`Online na porta ${PORT}`));
