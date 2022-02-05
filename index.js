@@ -4,8 +4,6 @@ const cors = require('cors');
 const app = express();
 const http = require('http').createServer(app);
 
-app.use(cors());
-
 const io = require('socket.io')(http, {
   cors: {
     origin: 'http://localhost:3000',
@@ -13,9 +11,11 @@ const io = require('socket.io')(http, {
   },
 });
 
+const { messages } = require('./src/controllers/messages');
+
 require('./src/sockets')(io);
 
-const { messages } = require('./src/controllers/messages');
+app.use(cors());
 
 const PORT = 3001;
 

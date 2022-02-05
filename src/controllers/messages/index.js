@@ -1,4 +1,4 @@
-const messagesService = require('../../services/messages');
+const messagesService = require('../../services/messages/messages');
 
 const messages = async (_req, res, next) => {
   try {
