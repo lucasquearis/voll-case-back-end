@@ -24,18 +24,18 @@ const newMessage = (socket, io) => {
   });
 };
 
-const userTyping = (socket, io) => {
+const userTyping = (socket) => {
   socket.on('typing', ({ typing, userName }) => {
     if (typing) {
       if (userTypingUsers.some((user) => user.userName === userName)) {
-        return io.emit('typingList', userTypingUsers);
+        return socket.broadcast.emit('typingList', userTypingUsers);
       }
       userTypingUsers.push(userName);
-      return io.emit('typingList', userTypingUsers);
+      return socket.broadcast.emit('typingList', userTypingUsers);
     }
     const userIndex = userTypingUsers.findIndex((user) => user.userName === userName);
     userTypingUsers.splice(userIndex, 1);
-    return io.emit('typingList', userTypingUsers);
+    return socket.broadcast.emit('typingList', userTypingUsers);
   });
 };
 
