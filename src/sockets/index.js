@@ -39,11 +39,19 @@ const userTyping = (socket) => {
   });
 };
 
+const endConnection = (socket, io) => {
+  socket.on('endConnection', () => {
+    socket.disconnect();
+    io.emit('userList', userList);
+  });
+};
+
 module.exports = (io) => {
   io.on('connection', async (socket) => {
-    console.log(`USUÁRIO ENTROU: ${socket.id}`);
+    global.console.log(`USUÁRIO ENTROU: ${socket.id}`);
     io.emit('userList', userList);
     newUser(socket, io);
+    endConnection(socket, io);
     disconnect(socket, io);
     newMessage(socket, io);
     userTyping(socket, io);

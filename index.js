@@ -10,6 +10,7 @@ const io = require('socket.io')(http, {
     methods: ['GET', 'POST'],
   },
 });
+const { ErrorController } = require('./src/controllers/Error');
 
 const { messages } = require('./src/controllers/messages');
 
@@ -20,5 +21,7 @@ app.use(cors());
 const PORT = 3001;
 
 app.get('/messages', messages);
+
+app.use(ErrorController);
 
 http.listen(PORT, () => global.console.log(`Online na porta ${PORT}`));
