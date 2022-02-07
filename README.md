@@ -1,4 +1,4 @@
-# Bem vindo(a)s ao repositorio de Back-end do meu desafio técnico para empresa Voll Solutions
+# Bem vindo(a) ao repositorio de Back-end do meu desafio técnico para empresa Voll Solutions
 
 O objetivo desse desafio é desenvolver um chat-online para conversas em grupo utilizando WebSocket.
 
